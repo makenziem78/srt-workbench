@@ -6,6 +6,7 @@ struct CueRowView: View {
     let isActive: Bool
     let onJump: () -> Void
     let onDelete: () -> Void
+    let onInsertAfter: () -> Void
     let onStartChanged: (String) -> Void
     let onEndChanged: (String) -> Void
     let onTextChanged: (String) -> Void
@@ -35,6 +36,13 @@ struct CueRowView: View {
                 .buttonStyle(.bordered)
                 .controlSize(.small)
                 .help("Delete this cue")
+
+                Button(action: onInsertAfter) {
+                    Image(systemName: "plus")
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+                .help("Insert a new cue after this one")
 
                 Spacer()
 

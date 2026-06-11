@@ -38,6 +38,7 @@ struct CueEditorView: View {
                                 }
                             },
                             onDelete: { viewModel.deleteCue(at: index) },
+                            onInsertAfter: { viewModel.insertCue(after: index) },
                             onStartChanged: { tc in viewModel.updateCueStart(at: index, timecode: tc) },
                             onEndChanged: { tc in viewModel.updateCueEnd(at: index, timecode: tc) },
                             onTextChanged: { text in viewModel.updateCueText(at: index, text: text) }

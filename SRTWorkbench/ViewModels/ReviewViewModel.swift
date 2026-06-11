@@ -92,6 +92,24 @@ class ReviewViewModel {
         document.cues.remove(at: index)
     }
 
+    /// Insert a blank cue immediately after `index`, splitting the time available
+    /// between the end of cue[index] and the start of the following cue (or +2s
+    /// when there is no following cue). The new cue occupies the second half of
+    /// that window so the existing cue keeps its original timecodes.
+    func insertCue(after index: Int) {
+        guard document.cues.indices.contains(index) else { return }
+        let preceding = document.cues[index]
+        let windowEnd: TimeInterval
+        if document.cues.indices.contains(index + 1) {
+            windowEnd = document.cues[index + 1].startTime
+        } else {
+            windowEnd = preceding.endTime + 2.0
+        }
+        let midpoint = preceding.endTime + (windowEnd - preceding.endTime) / 2
+        let newCue = SRTCue(startTime: midpoint, endTime: windowEnd, text: "")
+        document.cues.insert(newCue, at: index + 1)
+    }
+
     // MARK: - Compliance
 
     /// DCMP / CEA-608 issues for the current cues (advisory, recomputed on read).
